@@ -1,24 +1,33 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react'
+import { Route, BrowserRouter as Router, Switch, Redirect } from 'react-router-dom'
+import Material from 'components/Material';
+import Stepper from 'components/Stepper';
+
+const routes = [
+  {
+    path: '/',
+    component: Material,
+    exact: true
+  },
+  {
+    path: '/stepper',
+    component: Stepper,
+  }
+]
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <Switch>
+        {
+          routes.map(route => {
+            if (!route.path) throw new Error('A path is required for "Route" component');
+            return <Route path={route.path} component={route.component} exact={route.exact || false} />
+          })
+        }
+        <Redirect to="/" />
+      </Switch>
+    </Router>
   );
 }
 
